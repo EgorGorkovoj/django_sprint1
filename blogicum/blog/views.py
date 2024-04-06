@@ -1,3 +1,4 @@
+from django.http import HttpResponseNotFound
 from django.shortcuts import render
 
 posts = [
@@ -46,14 +47,19 @@ posts = [
 
 def index(request):
     template_name = 'blog/index.html'
-    context = {'post': posts[::-1]}
+    posts_list = sorted(posts, key=lambda d: -d['id'])
+    context = {'post': posts_list}
     return render(request, template_name, context)
 
 
-def post_detail(request, id):
+def post_detail(request, post_id):
     template_name = 'blog/detail.html'
-    context = {'post': posts[id]}
-    return render(request, template_name, context)
+    try:
+        context = {'post': posts[post_id]}
+    except IndexError:
+        return HttpResponseNotFound('<h1>404 Page not found</h1>')
+    else:
+        return render(request, template_name, context)
 
 
 def category_posts(request, category_slug):

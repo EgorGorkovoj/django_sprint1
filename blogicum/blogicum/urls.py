@@ -18,8 +18,8 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # Не стал убирать, чтобы отображалась главная страница при запуске сервера.
     path('', include('blog.urls')),
-    path('blog/', include('blog.urls')),
     path('blog/', include('blog.urls')),
     path('pages/', include('pages.urls'))
 ]
